@@ -23,7 +23,7 @@ percent = [0.25,0.25,0.50] #same
 
 #trys to find the file and load it into a list
 try:
-    with open('media/balance.txt', 'r') as file: #with will automatically close the file
+    with open('<Media/balance.txt', 'r') as file: #with will automatically close the file
         for line in file.readlines(): 
             balance.append(float(line)) #creates a temp list of highscores
 
