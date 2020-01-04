@@ -13,72 +13,57 @@ __status__ = "Prototype, Development or Production"
 
 
 """
+#needed for copying files(backup)
 import shutil
 
-#data
-
-balance = [] #savings,pushbike,uni
+#global variables
+balance = {}
 percent = [0.25,0.25,0.50] #same
 
-#trys to find the file and load it into a list
-try:
-    with open('Media/balance.txt', 'r') as file: #with will automatically close the file
-        for line in file.readlines(): 
-            balance.append(float(line)) #creates a temp list of highscores
 
-        #if it cant find the file...
+#Opens the balance file and loads it into a dictionary
+try:
+    with open('Media/balance.txt', 'r') as file:
+        for line in file.readlines(): 
+            list = line.split('\t') #spilts the original file into a list of three
+            list1 = list[0] #creates an individual of each to create a final list later
+            list2 = int(list[1]) #has to make an int otherwise it will sort it as if its an str 
+            balance[list1] = list2
 except:
     print('there is no file specified') #debugging statement
     quit()
-
-
-        
-def addBalance():
-    account = int(input('which account would you like to add too? \n spendings(0) \n pushbike(1) \n uni(2) \n '))
-    amount = float(input('how much would you like to add? '))
     
+
+   
+   
+def addBalance(amount, account):
+    '''adds amount to the selected account'''
     balance[account] = round((balance[account] + amount),2)
-    total = balance[0] + balance[1] + balance[2]
-    
-    #print("you now have",balance[account],"in that account \nThe total is now",total)
 
-    cont = input('\n continue?')
-    if cont == 'n':
-        quit()
-
-def takeBalance(): 
-    account = int(input('which account would you like take away from? \n spendings(0) \n pushbike(1) \n uni(2) \n '))
-    amount = float(input('how much would you like to add? '))
-    
+def takeBalance(amount, account):
+    '''takes amount from the selected account'''
     balance[account] = round((balance[account] - amount),2)
-    total = balance[0] + balance[1] + balance[2]
-    
-    #print("you now have",balance[account],"in that account \n The total is now",total)
-
-    cont = input('\n continue?')
-    if cont == 'n':
-        quit()
 
 def displayBalance():
-    total = round(balance[0] + balance[1] + balance[2],2)
-    text = ('Your current balance is %s\nsavings: %s \npushbike: %s \nuni: %s' % (total,balance[0],balance[1],balance[2]))
+    '''returns a text to be displayed by the balance label'''
+    total = round(balance['leisure'] + balance['pushbike'] + balance['uni'],2)
+    text = ('Your current balance is $%s\nLeisure: $%s \nPushbike: $%s \nUni: $%s' % (total,balance['leisure'],balance['pushbike'],balance['uni']))
     #print(text)
     return (text)
-        
-###############
+
 def payBalance(amount):
     '''seperates pay into seperate amounts'''
     spend = round((amount*percent[0]),2)
-    balance[0] = balance[0] + spend
+    balance['leisure'] = balance['leisure'] + spend
 
     push = round((amount*percent[1]),2)
-    balance[1] = balance[1] + push
+    balance['pushbike'] = balance['pushbike'] + push
 
     uni = round((amount*percent[2]),2)
-    balance[2] = balance[2] + uni
+    balance['uni'] = balance['uni'] + uni
 
         
-        
+#this has not been implemented yet        
 def save():
     total = balance[0] + balance[1] + balance[2]
     #print('the total is',total,'where each account is \n savings:',balance[0],'\n pushbike:',balance[1],'\n uni:',balance[2])
