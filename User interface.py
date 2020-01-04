@@ -156,7 +156,7 @@ class addPage(tk.Frame):
         bottomFrame.place(relwidth=1,relheight=0.6,rely = 0.4)
         
         #TOP FRAME
-        titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Pay Page'  )
+        titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Add Page'  )
         titleLabel.pack(pady=10,padx=10)
         
         self.balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  )
@@ -164,19 +164,28 @@ class addPage(tk.Frame):
         
         #BOTTOM FRAME
 
-        questionLabel = ttk.Label(bottomFrame, font = SMALL_FONT, background =BOTTOM_FRAME, text = 'How much have you been paid? Which account?'  ) #creates the object and stores it in a variable
+        questionLabel = ttk.Label(bottomFrame, font = SMALL_FONT, background =BOTTOM_FRAME, text = 'How much do you wish to add? Which account?'  ) #creates the object and stores it in a variable
         questionLabel.pack(pady=10,padx=10)
         
         questionEntry = ttk.Entry(bottomFrame, background = 'white')
         questionEntry.pack()
         
+        self.account = tk.StringVar()
+        accountChoose = ttk.Combobox(bottomFrame, textvariable=self.account, values=('leisure','pushbike','uni'))
+        accountChoose.pack(pady=10,padx=10)
         
+        addButton = ttk.Button(bottomFrame,text = "add", command = lambda: add(int(questionEntry.get())))
+        addButton.pack()  
         
         homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
         homeButton.pack()
         
+        def add(amount):
+            addBalance(amount, self.account.get())
+            controller.uppinit()
+        
     def upp(self):
-        print('update class method has been called for addpage')
+        self.balanceLabel['text'] = displayBalance()
         
 
             
@@ -185,14 +194,45 @@ class takePage(tk.Frame):
     
     def __init__ (self, parent, controller):
         tk.Frame.__init__(self,parent)
-        lable = ttk.Label(self,text="take page", font = LARGE_FONT) #creates the object and stores it in a variable
-        lable.pack(pady=10,padx=10)
         
-        button1 = ttk.Button(self,text = "home", command = lambda: controller.show_frame(startPage))
-        button1.pack()
+        #creating frames
+        topFrame = tk.Frame(self, bg = TOP_FRAME)
+        topFrame.place(relwidth=1,relheight=0.4)
+
+        bottomFrame = tk.Frame(self, bg = BOTTOM_FRAME)
+        bottomFrame.place(relwidth=1,relheight=0.6,rely = 0.4)
+        
+        #TOP FRAME
+        titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Take Page'  )
+        titleLabel.pack(pady=10,padx=10)
+        
+        self.balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  )
+        self.balanceLabel.pack(pady=10,padx=10)  
+        
+        #BOTTOM FRAME
+
+        questionLabel = ttk.Label(bottomFrame, font = SMALL_FONT, background =BOTTOM_FRAME, text = 'How much do you wish to take? Which account?'  ) #creates the object and stores it in a variable
+        questionLabel.pack(pady=10,padx=10)
+        
+        questionEntry = ttk.Entry(bottomFrame, background = 'white')
+        questionEntry.pack()
+        
+        self.account = tk.StringVar()
+        accountChoose = ttk.Combobox(bottomFrame, textvariable=self.account, values=('leisure','pushbike','uni'))
+        accountChoose.pack(pady=10,padx=10)
+        
+        addButton = ttk.Button(bottomFrame,text = "take", command = lambda: take(int(questionEntry.get())))
+        addButton.pack()  
+        
+        homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
+        homeButton.pack()
+        
+        def take(amount):
+            takeBalance(amount, self.account.get())
+            controller.uppinit()
         
     def upp(self):
-        print('update class method has been called for takepage')
+        self.balanceLabel['text'] = displayBalance()
 
 
 
