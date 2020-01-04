@@ -28,6 +28,7 @@ class GUI(tk.Tk):
         menubar = tk.Menu(container)
         filemenu = tk.Menu(menubar, tearoff = 0)
         filemenu.add_command(label= 'exit', command =quit)
+        filemenu.add_command(label= 'save and exit', command = lambda: popup())
         '''other options
         filemenu,add_separator()
         #ilemenu.add_command(lable = 'my ass', command=quit)
@@ -61,7 +62,7 @@ class GUI(tk.Tk):
         self.frames[payPage].upp()
         self.frames[addPage].upp()
         self.frames[takePage].upp()
-
+    
         
 class startPage(tk.Frame):
     
@@ -126,7 +127,7 @@ class payPage(tk.Frame):
         questionEntry = ttk.Entry(bottomFrame, background = 'white')
         questionEntry.pack()
         
-        payButton = ttk.Button(bottomFrame,text = "pay", command = lambda: pay(int(questionEntry.get())))
+        payButton = ttk.Button(bottomFrame,text = "pay", command = lambda: pay(float(questionEntry.get())))
         payButton.pack()   
         
         homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
@@ -174,7 +175,7 @@ class addPage(tk.Frame):
         accountChoose = ttk.Combobox(bottomFrame, textvariable=self.account, values=('leisure','pushbike','uni'))
         accountChoose.pack(pady=10,padx=10)
         
-        addButton = ttk.Button(bottomFrame,text = "add", command = lambda: add(int(questionEntry.get())))
+        addButton = ttk.Button(bottomFrame,text = "add", command = lambda: add(float(questionEntry.get())))
         addButton.pack()  
         
         homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
@@ -221,7 +222,7 @@ class takePage(tk.Frame):
         accountChoose = ttk.Combobox(bottomFrame, textvariable=self.account, values=('leisure','pushbike','uni'))
         accountChoose.pack(pady=10,padx=10)
         
-        addButton = ttk.Button(bottomFrame,text = "take", command = lambda: take(int(questionEntry.get())))
+        addButton = ttk.Button(bottomFrame,text = "take", command = lambda: take(float(questionEntry.get())))
         addButton.pack()  
         
         homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
@@ -234,28 +235,29 @@ class takePage(tk.Frame):
     def upp(self):
         self.balanceLabel['text'] = displayBalance()
 
+def popup():
+    #creation/ settings
+    popup = tk.Tk()
+    popup.geometry('320x240')
+    popup.wm_title('save and exit')
+    
+    #labels/buttons
+    confirmationLabel = ttk.Label(popup, text = 'Are you sure you would like to exit?', font = SMALL_FONT)
+    confirmationLabel.pack(pady=20,padx=10)
+    
+    yesButton = ttk.Button(popup, text = 'yes', command = lambda: save())
+    yesButton.pack()
+    
+    noButton = ttk.Button(popup, text = 'no', command = popup.destroy)
+    noButton.pack()
+    #now we display the popup
+    popup.mainloop()
 
 
-def uppinit():
-    '''Runs a method in each class to update the main balance label screen'''
-    startpage.upp()
-    payPage.upp()
-    addPage.upp()
-    takePage.upp()
-    
-#balanceText = tk.StringVar()
-#balanceText.set(100)
-app = GUI()
 
-'''def uppinit():
-    Runs a method in each class to update the main balance label screen
-    startPage.upp()
-    payPage.upp()
-    addPage.upp()
-    takePage.upp()
-    frame.upp()'''
-    
-    
+
+#code officially starts here
+app = GUI()    
 app.geometry('640x480')
 app.mainloop()
 
