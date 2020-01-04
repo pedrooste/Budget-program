@@ -1,3 +1,4 @@
+
 import tkinter as tk
 from tkinter import ttk #use this on labels and buttons for a nicer version
 from arguments import *
@@ -7,6 +8,7 @@ SMALL_FONT = ("verdana",12)
 BOTTOM_FRAME = '#f0f0f0'
 TOP_FRAME = '#e8fdff'
 
+
 class GUI(tk.Tk):
     def __init__ (self, *Args, **kwargs):
         
@@ -14,7 +16,7 @@ class GUI(tk.Tk):
         
         #creating the window details
         '''tk.Tk.iconnitmap(self, default='enter address, must be icon')'''
-        tk.Tk.wm_title(self,'eat my ass')
+        tk.Tk.wm_title(self,'Budget Program')
         
         #still need to figure out what this does, has been intergrated throughout the main class controller
         container = tk.Frame(self)
@@ -33,28 +35,39 @@ class GUI(tk.Tk):
         menubar.add_cascade(label= 'File', menu=filemenu)
         tk.Tk.config(self, menu= menubar)
         
+
+        #creating a dictionary where we will store our page objects, the key is the name of the class
         self.frames = {}
         
-        #initialising all pages
+        #initialising all pages and storing objects within the dictionary
         for F in (startPage, payPage, addPage, takePage):
-            
             frame = F(container,self)
             self.frames[F] = frame
             frame.grid(row = 0, column = 0, sticky = 'nsew')
-        
         self.show_frame(startPage)
-    
+        
+        #starts off by showing the first page
+        self.show_frame(startPage)
+        
     #main control to determine which page to show
     def show_frame(self, cont):
         
         frame = self.frames[cont] #all frames are theoretically shown at once, however this line of code shows the current page at the top
         frame.tkraise()
-    
-    
+        
+    def uppinit(self):
+        '''Runs a method in each class to update the main balance label screen'''
+        self.frames[startPage].upp()
+        self.frames[payPage].upp()
+        self.frames[addPage].upp()
+        self.frames[takePage].upp()
+
+        
 class startPage(tk.Frame):
     
     def __init__ (self, parent, controller):
         tk.Frame.__init__(self,parent)
+        
         #creating frames
         topFrame = tk.Frame(self, bg = TOP_FRAME)
         topFrame.place(relwidth=1,relheight=0.8)
@@ -65,8 +78,10 @@ class startPage(tk.Frame):
         titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Welcome!'  )
         titleLabel.pack(pady=10,padx=10)
         
-        balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  ) #creates the object and stores it in a variable
-        balanceLabel.pack(pady=10,padx=10)
+        #this has been used as a self. as we need to pass it to another method within the class. we should probably name all labels as self
+        self.balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  ) #creates the object and stores it in a variable
+        self.balanceLabel.pack(pady=10,padx=10)
+        
         #creating buttons
         payButton = ttk.Button(bottomFrame,text = "pay", command = lambda: controller.show_frame(payPage))
         payButton.pack()
@@ -77,8 +92,10 @@ class startPage(tk.Frame):
         takeButton = ttk.Button(bottomFrame,text = "take", command = lambda: controller.show_frame(takePage))
         takeButton.pack()
 
-
-        
+    
+    def upp(self):
+        '''This method is called from the uppinit every time there is a balance change'''
+        self.balanceLabel['text'] = displayBalance()
         
         
         
@@ -86,22 +103,83 @@ class payPage(tk.Frame):
     
     def __init__ (self, parent, controller):
         tk.Frame.__init__(self,parent)
-        lable = ttk.Label(self,text="pay page", font = LARGE_FONT) #creates the object and stores it in a variable
-        lable.pack(pady=10,padx=10)
         
-        button1 = ttk.Button(self,text = "home", command = lambda: controller.show_frame(startPage))
-        button1.pack()
+        #creating frames
+        topFrame = tk.Frame(self, bg = TOP_FRAME)
+        topFrame.place(relwidth=1,relheight=0.4)
+
+        bottomFrame = tk.Frame(self, bg = BOTTOM_FRAME)
+        bottomFrame.place(relwidth=1,relheight=0.6,rely = 0.4)
+        
+        #TOP FRAME
+        titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Pay Page'  )
+        titleLabel.pack(pady=10,padx=10)
+        
+        #this has been used as a self. as we need to pass it to another method within the class. we should probably name all labels as self
+        self.balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  )
+        self.balanceLabel.pack(pady=10,padx=10)  
+        
+        #BOTTOM FRAME
+        questionLabel = ttk.Label(bottomFrame, font = SMALL_FONT, background =BOTTOM_FRAME, text = 'How much have you been paid?'  ) #creates the object and stores it in a variable
+        questionLabel.pack(pady=10,padx=10)
+        
+        questionEntry = ttk.Entry(bottomFrame, background = 'white')
+        questionEntry.pack()
+        
+        payButton = ttk.Button(bottomFrame,text = "pay", command = lambda: pay(int(questionEntry.get())))
+        payButton.pack()   
+        
+        homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
+        homeButton.pack()        
+        
+        def pay(amount):
+            '''small function that simpily calls two others, call it messy call it neat. I dont care'''
+            payBalance(amount)
+            controller.uppinit()
+               
+    def upp(self):
+        self.balanceLabel['text'] = displayBalance()
+        
+
 
 
 class addPage(tk.Frame):
     
     def __init__ (self, parent, controller):
         tk.Frame.__init__(self,parent)
-        lable = ttk.Label(self,text="add page", font = LARGE_FONT) #creates the object and stores it in a variable
-        lable.pack(pady=10,padx=10)
         
-        button1 = ttk.Button(self,text = "home", command = lambda: controller.show_frame(startPage))
-        button1.pack()
+        #creating frames
+        topFrame = tk.Frame(self, bg = TOP_FRAME)
+        topFrame.place(relwidth=1,relheight=0.4)
+
+        bottomFrame = tk.Frame(self, bg = BOTTOM_FRAME)
+        bottomFrame.place(relwidth=1,relheight=0.6,rely = 0.4)
+        
+        #TOP FRAME
+        titleLabel = ttk.Label(topFrame, font = LARGE_FONT, background =TOP_FRAME, text = 'Pay Page'  )
+        titleLabel.pack(pady=10,padx=10)
+        
+        self.balanceLabel = ttk.Label(topFrame, font = SMALL_FONT, background =TOP_FRAME, text = displayBalance()  )
+        self.balanceLabel.pack(pady=10,padx=10)  
+        
+        #BOTTOM FRAME
+
+        questionLabel = ttk.Label(bottomFrame, font = SMALL_FONT, background =BOTTOM_FRAME, text = 'How much have you been paid? Which account?'  ) #creates the object and stores it in a variable
+        questionLabel.pack(pady=10,padx=10)
+        
+        questionEntry = ttk.Entry(bottomFrame, background = 'white')
+        questionEntry.pack()
+        
+        
+        
+        homeButton = ttk.Button(bottomFrame,text = "home", command = lambda: controller.show_frame(startPage))
+        homeButton.pack()
+        
+    def upp(self):
+        print('update class method has been called for addpage')
+        
+
+            
         
 class takePage(tk.Frame):
     
@@ -112,9 +190,32 @@ class takePage(tk.Frame):
         
         button1 = ttk.Button(self,text = "home", command = lambda: controller.show_frame(startPage))
         button1.pack()
-
-
         
+    def upp(self):
+        print('update class method has been called for takepage')
+
+
+
+def uppinit():
+    '''Runs a method in each class to update the main balance label screen'''
+    startpage.upp()
+    payPage.upp()
+    addPage.upp()
+    takePage.upp()
+    
+#balanceText = tk.StringVar()
+#balanceText.set(100)
 app = GUI()
+
+'''def uppinit():
+    Runs a method in each class to update the main balance label screen
+    startPage.upp()
+    payPage.upp()
+    addPage.upp()
+    takePage.upp()
+    frame.upp()'''
+    
+    
 app.geometry('640x480')
 app.mainloop()
+
