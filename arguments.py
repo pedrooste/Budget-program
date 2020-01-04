@@ -15,7 +15,6 @@ __status__ = "Prototype, Development or Production"
 """
 import shutil
 
-
 #data
 
 balance = [] #savings,pushbike,uni
@@ -23,7 +22,7 @@ percent = [0.25,0.25,0.50] #same
 
 #trys to find the file and load it into a list
 try:
-    with open('<Media/balance.txt', 'r') as file: #with will automatically close the file
+    with open('Media/balance.txt', 'r') as file: #with will automatically close the file
         for line in file.readlines(): 
             balance.append(float(line)) #creates a temp list of highscores
 
@@ -41,53 +40,48 @@ def addBalance():
     balance[account] = round((balance[account] + amount),2)
     total = balance[0] + balance[1] + balance[2]
     
-    print("you now have",balance[account],"in that account \nThe total is now",total)
+    #print("you now have",balance[account],"in that account \nThe total is now",total)
 
     cont = input('\n continue?')
     if cont == 'n':
         quit()
 
-def takeBalance():
+def takeBalance(): 
     account = int(input('which account would you like take away from? \n spendings(0) \n pushbike(1) \n uni(2) \n '))
     amount = float(input('how much would you like to add? '))
     
     balance[account] = round((balance[account] - amount),2)
     total = balance[0] + balance[1] + balance[2]
     
-    print("you now have",balance[account],"in that account \n The total is now",total)
+    #print("you now have",balance[account],"in that account \n The total is now",total)
 
     cont = input('\n continue?')
     if cont == 'n':
         quit()
 
 def displayBalance():
-    total = balance[0] + balance[1] + balance[2]
+    total = round(balance[0] + balance[1] + balance[2],2)
     text = ('Your current balance is %s\nsavings: %s \npushbike: %s \nuni: %s' % (total,balance[0],balance[1],balance[2]))
+    #print(text)
     return (text)
         
-def payBalance():
-    amount = float(input('How much have you been paid?'))
-    
+###############
+def payBalance(amount):
+    '''seperates pay into seperate amounts'''
     spend = round((amount*percent[0]),2)
     balance[0] = balance[0] + spend
-    
+
     push = round((amount*percent[1]),2)
     balance[1] = balance[1] + push
-    
+
     uni = round((amount*percent[2]),2)
     balance[2] = balance[2] + uni
-    
-    print(' savings:',balance[0],'\n pushbike:',balance[1],'\n uni:',balance[2])
-    
-    cont = input('\n continue?')
-    if cont == 'n':
-        quit()
-        
+
         
         
 def save():
     total = balance[0] + balance[1] + balance[2]
-    print('the total is',total,'where each account is \n savings:',balance[0],'\n pushbike:',balance[1],'\n uni:',balance[2])
+    #print('the total is',total,'where each account is \n savings:',balance[0],'\n pushbike:',balance[1],'\n uni:',balance[2])
     match = input('Does this match? ')
     
     if match == 'y':
