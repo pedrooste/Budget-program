@@ -27,7 +27,7 @@ try:
         for line in file.readlines(): 
             list = line.split('\t') #spilts the original file into a list of three
             list1 = list[0] #creates an individual of each to create a final list later
-            list2 = int(list[1]) #has to make an int otherwise it will sort it as if its an str 
+            list2 = float(list[1]) #has to make an int otherwise it will sort it as if its an str 
             balance[list1] = list2
 except:
     print('there is no file specified') #debugging statement
@@ -63,20 +63,12 @@ def payBalance(amount):
     balance['uni'] = balance['uni'] + uni
 
         
-#this has not been implemented yet        
+       
 def save():
-    total = balance[0] + balance[1] + balance[2]
-    #print('the total is',total,'where each account is \n savings:',balance[0],'\n pushbike:',balance[1],'\n uni:',balance[2])
-    match = input('Does this match? ')
-    
-    if match == 'y':
-        print('\nmatch is correct')
+    #makes a copy of the file before saving
+    shutil.copy('media/balance.txt', 'media/balanceBackup.txt')
         
-        shutil.copy('media/balance.txt', 'media/balanceBackup.txt') #creates backup, first is file, second is destination
-        
-        with open('media/balance.txt','w') as file: #Will create a new file if there is not one there, use append to not overwrite data
-            file.write(str(balance[0])+'\n'+str(balance[1])+'\n'+str(balance[2])) #writes to the file
-            print('sucessfull')
-
-    else:
-        print('\nokay try again')
+    with open('media/balance.txt','w') as file: #Will create a new file if there is not one there, use append to not overwrite data
+        file.write('leisure\t'+str(balance['leisure'])+'\npushbike\t'+str(balance['pushbike'])+'\nuni\t'+str(balance['uni'])) #writes to the file
+        print('sucessfull')
+    quit()
