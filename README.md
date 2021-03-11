@@ -3,9 +3,9 @@
 <h3>Introduction</h3>
 Basic python GUI that is used to keep track of my budgeting by seperating my entered pay into 3 different virtual accounts.
 Each account can be tracked through adding and taking money.
-<br>
+<br><br>
 Python learning aspects covered in this project include object orientated design, tkinter GUI, file IO, error handling
-<br>
+<br><br>
 This project was finished up January 2021, mainly used as a basis for exploration into tkinter GUI.
 <ul>
   <li>No formal commits were made as this was developed without the heavy use of github.</li>
