@@ -29,10 +29,7 @@ class GUI(tk.Tk):
         filemenu = tk.Menu(menubar, tearoff = 0)
         filemenu.add_command(label= 'exit', command =quit)
         filemenu.add_command(label= 'save and exit', command = lambda: popup())
-        '''other options
-        filemenu,add_separator()
-        #ilemenu.add_command(lable = 'my ass', command=quit)
-        '''
+
         menubar.add_cascade(label= 'File', menu=filemenu)
         tk.Tk.config(self, menu= menubar)
         

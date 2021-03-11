@@ -1,11 +1,9 @@
-""" Keeps track of spending as also done with excel
-This is an initial stage.
-"""
+
 
 __author__ = "Pedro oste"
 __license__ = "GPL"
 __version__ = "1.0.1"
-__email__ = "fuck that"
+__email__ = "aaa"
 __status__ = "Prototype, Development or Production"
 
 
@@ -18,7 +16,7 @@ import shutil
 
 #global variables
 balance = {}
-percent = [0.25,0.25,0.50] #same
+percent = [0.25,0.25,0.50] #spend, pushbike, uni account weight
 
 
 #Opens the balance file and loads it into a dictionary
