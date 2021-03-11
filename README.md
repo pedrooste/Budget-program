@@ -1,6 +1,6 @@
-# Budget-program
+<h1>Budget-program</h1>
 
-### Introduction
+<h3>Introduction</h3>
 Basic python GUI that is used to keep track of my budgeting by seperating my entered pay into 3 different virtual accounts.
 Each account can be tracked through adding and taking money.
 <br>
@@ -15,12 +15,12 @@ This project was finished up January 2021, mainly used as a basis for exploratio
   <li>If you are looking for demonstration of common code practice, please view any new projects</li>
 </ul>
 <br>
-### User interface.py
+<h3>User interface.py</h3>
 <br>
 The user interface file contains code that controls the GUI aspect of the program. Ie what window will be rendered.
 Global variables have been included at the start of the file for commont fonts and sizes
 <br>
-### Arguments.py
+<h3>Arguments.py</h3>
 <br>
 The arguments file contains all the backend arguments that the GUI will refer to calculate balances. Each function has a description of what it does within the file.
 Global variables listed at the top of the file control how each account is weighted when putting in pay
